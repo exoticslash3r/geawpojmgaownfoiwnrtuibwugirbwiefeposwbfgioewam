@@ -414,6 +414,108 @@ body {
     padding-bottom: 0.8rem;
 }
 
+/* Pagination Styles */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+    gap: 0.5rem;
+}
+
+.pagination-info {
+    color: var(--accent-color);
+    font-size: 0.9rem;
+    margin: 0 1rem;
+}
+
+.pagination-btn {
+    background: #000000;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    min-width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: var(--accent-color);
+    color: #000000;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-page-btn {
+    background: #000000;
+    color: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+    min-width: 36px;
+    height: 36px;
+}
+
+.pagination-page-btn:hover {
+    background: var(--accent-color);
+    color: #000000;
+}
+
+.pagination-page-btn.active {
+    background: var(--accent-color);
+    color: #000000;
+    font-weight: bold;
+}
+
+.pagination-dots {
+    color: var(--accent-color);
+    padding: 0 0.5rem;
+}
+
+/* View Paste Link Bar */
+.view-paste-bar {
+    background: #000000;
+    border: 2px solid var(--accent-color);
+    border-radius: 4px;
+    padding: 0.8rem;
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.view-paste-link {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.view-paste-link:hover {
+    text-decoration: underline;
+}
+
+.paste-id-display {
+    color: #888;
+    font-size: 0.8rem;
+    font-family: 'Courier New', monospace;
+}
+
 /* FULLSCREEN PASTE DETAIL */
 .paste-detail-container {
     position: fixed;
@@ -981,6 +1083,14 @@ body {
     .search-wrapper {
         width: 100%;
     }
+    .pagination-container {
+        flex-wrap: wrap;
+    }
+    .view-paste-bar {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
 }
 </style>
 </head>
@@ -1081,6 +1191,19 @@ body {
                     <!-- All pastes will be loaded here -->
                 </tbody>
             </table>
+        </div>
+        
+        <!-- Pagination -->
+        <div id="pagination-container" class="pagination-container">
+            <!-- Pagination buttons will be generated here -->
+        </div>
+        
+        <!-- View Paste Bar -->
+        <div id="view-paste-bar" class="view-paste-bar hidden">
+            <a href="#" id="view-paste-link" class="view-paste-link" onclick="viewCurrentPaste(); return false;">
+                <span>→</span> View this paste
+            </a>
+            <div id="paste-id-display" class="paste-id-display"></div>
         </div>
     </div>
 
@@ -1311,7 +1434,7 @@ body {
 <script>
 // Firebase Configuration
 const pasteDbConfig = {
-    apiKey: "AIzaSyA1qaJnsRvWDvxNn9Nd1tmMVjvkF-WpUQY",
+    apiKey: "AIzaSyA1qaJnsRvWDvxN9Nd1tmMVjvkF-WpUQY",
     authDomain: "norbin-c2fdb.firebaseapp.com",
     projectId: "norbin-c2fdb",
     storageBucket: "norbin-c2fdb.firebasestorage.app",
@@ -1349,6 +1472,13 @@ let isTagMaker = false;
 let isOwner = false;
 let searchTimeout = null;
 let timeoutInterval = null;
+
+// Pagination State
+let currentPage = 1;
+let totalPastes = 0;
+let totalPages = 1;
+const pastesPerPage = 100;
+let currentPasteId = null;
 
 // Alert System
 function showAlert(message, type = 'info') {
@@ -1881,15 +2011,28 @@ function clearPasteForm() {
     document.getElementById('paste-content').value = '';
 }
 
-async function loadRecentPastes() {
+// Pagination Functions
+async function loadRecentPastes(page = 1) {
+    currentPage = page;
+    
     try {
+        // Get total count
+        const countSnapshot = await pasteDb.collection('pastes')
+            .where('isRemoved', '==', false)
+            .get();
+        totalPastes = countSnapshot.size;
+        totalPages = Math.ceil(totalPastes / pastesPerPage);
+        
+        // Get paginated pastes
         const snapshot = await pasteDb.collection('pastes')
             .where('isRemoved', '==', false)
             .orderBy('timestamp', 'desc')
-            .limit(100)
+            .limit(pastesPerPage)
+            .offset((page - 1) * pastesPerPage)
             .get();
 
         displayPastesTable(snapshot, 'all-pastes-body');
+        updatePagination();
     } catch (error) {
         console.error('Error loading pastes:', error);
         document.getElementById('all-pastes-body').innerHTML = 
@@ -1931,7 +2074,12 @@ function displayPastesTable(snapshot, containerId, isPinned = false) {
         const pasteId = doc.id;
 
         const row = document.createElement('tr');
-        row.onclick = () => showPasteDetail(pasteId);
+        row.onclick = () => {
+            showPasteDetail(pasteId);
+            // Update view paste bar
+            currentPasteId = pasteId;
+            updateViewPasteBar(pasteId);
+        };
 
         row.innerHTML = `
             <td>
@@ -1947,10 +2095,129 @@ function displayPastesTable(snapshot, containerId, isPinned = false) {
     });
 }
 
+function updatePagination() {
+    const container = document.getElementById('pagination-container');
+    container.innerHTML = '';
+    
+    if (totalPages <= 1) {
+        // Don't show pagination if only one page
+        container.classList.add('hidden');
+        return;
+    }
+    
+    container.classList.remove('hidden');
+    
+    // Previous button
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'pagination-btn';
+    prevBtn.innerHTML = '←';
+    prevBtn.onclick = () => {
+        if (currentPage > 1) {
+            loadRecentPastes(currentPage - 1);
+        }
+    };
+    prevBtn.disabled = currentPage === 1;
+    container.appendChild(prevBtn);
+    
+    // Page number buttons
+    const maxVisiblePages = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+    
+    // Adjust if we're near the end
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+    }
+    
+    // First page
+    if (startPage > 1) {
+        const firstPageBtn = document.createElement('button');
+        firstPageBtn.className = 'pagination-page-btn';
+        firstPageBtn.textContent = '1';
+        firstPageBtn.onclick = () => loadRecentPastes(1);
+        container.appendChild(firstPageBtn);
+        
+        if (startPage > 2) {
+            const dots = document.createElement('span');
+            dots.className = 'pagination-dots';
+            dots.textContent = '...';
+            container.appendChild(dots);
+        }
+    }
+    
+    // Page numbers
+    for (let i = startPage; i <= endPage; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = `pagination-page-btn ${i === currentPage ? 'active' : ''}`;
+        pageBtn.textContent = i;
+        pageBtn.onclick = () => loadRecentPastes(i);
+        container.appendChild(pageBtn);
+    }
+    
+    // Last page
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            const dots = document.createElement('span');
+            dots.className = 'pagination-dots';
+            dots.textContent = '...';
+            container.appendChild(dots);
+        }
+        
+        const lastPageBtn = document.createElement('button');
+        lastPageBtn.className = 'pagination-page-btn';
+        lastPageBtn.textContent = totalPages;
+        lastPageBtn.onclick = () => loadRecentPastes(totalPages);
+        container.appendChild(lastPageBtn);
+    }
+    
+    // Next button
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'pagination-btn';
+    nextBtn.innerHTML = '→';
+    nextBtn.onclick = () => {
+        if (currentPage < totalPages) {
+            loadRecentPastes(currentPage + 1);
+        }
+    };
+    nextBtn.disabled = currentPage === totalPages;
+    container.appendChild(nextBtn);
+    
+    // Page info
+    const pageInfo = document.createElement('div');
+    pageInfo.className = 'pagination-info';
+    const startItem = (currentPage - 1) * pastesPerPage + 1;
+    const endItem = Math.min(currentPage * pastesPerPage, totalPastes);
+    pageInfo.textContent = `Showing ${startItem}-${endItem} of ${totalPastes}`;
+    container.appendChild(pageInfo);
+}
+
+function updateViewPasteBar(pasteId) {
+    const viewPasteBar = document.getElementById('view-paste-bar');
+    const pasteIdDisplay = document.getElementById('paste-id-display');
+    
+    if (pasteId) {
+        viewPasteBar.classList.remove('hidden');
+        pasteIdDisplay.textContent = `ID: ${pasteId}`;
+    } else {
+        viewPasteBar.classList.add('hidden');
+        pasteIdDisplay.textContent = '';
+    }
+}
+
+function viewCurrentPaste() {
+    if (currentPasteId) {
+        showPasteDetail(currentPasteId);
+    }
+}
+
 function displaySearchResults(results) {
     const container = document.getElementById('all-pastes-body');
     container.innerHTML = '';
-
+    
+    // Hide pagination and view paste bar during search
+    document.getElementById('pagination-container').classList.add('hidden');
+    document.getElementById('view-paste-bar').classList.add('hidden');
+    
     if (results.length === 0) {
         container.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 1.5rem;">No results found</td></tr>';
         return;
@@ -1958,7 +2225,12 @@ function displaySearchResults(results) {
 
     results.slice(0, 50).forEach(paste => {
         const row = document.createElement('tr');
-        row.onclick = () => showPasteDetail(paste.id);
+        row.onclick = () => {
+            showPasteDetail(paste.id);
+            // Update view paste bar
+            currentPasteId = paste.id;
+            updateViewPasteBar(paste.id);
+        };
 
         row.innerHTML = `
             <td>
