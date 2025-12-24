@@ -1198,6 +1198,253 @@ body {
         flex-direction: column;
     }
 }
+
+/* NEW: Comments System Styles */
+.comments-section {
+    margin-top: 2rem;
+    border-top: 1px solid var(--table-border);
+    padding-top: 1.5rem;
+}
+
+.comment-form {
+    background: var(--table-row-alt);
+    padding: 1rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+}
+
+.comment-form textarea {
+    width: 100%;
+    min-height: 80px;
+    background: var(--bg-color);
+    border: 1px solid var(--table-border);
+    color: var(--accent-color);
+    padding: 0.8rem;
+    border-radius: 2px;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.9rem;
+    resize: vertical;
+    margin-bottom: 0.8rem;
+}
+
+.comment-form textarea:focus {
+    outline: none;
+    border-color: var(--link-color);
+}
+
+.comments-list {
+    margin-top: 1.5rem;
+}
+
+.comment-item {
+    background: var(--table-row-alt);
+    border: 1px solid var(--table-border);
+    border-radius: 2px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.comment-author {
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.comment-time {
+    color: #888;
+    font-size: 0.8rem;
+}
+
+.comment-content {
+    white-space: pre-wrap;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.comment-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* NEW: Raw Paste View Styles */
+.raw-paste-view {
+    background: var(--bg-color);
+    border: 1px solid var(--table-border);
+    padding: 1.5rem;
+    border-radius: 2px;
+    font-family: 'Courier New', monospace;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.raw-paste-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--bg-color);
+    z-index: 10001;
+    padding: 15px;
+    overflow-y: auto;
+    display: none;
+}
+
+.raw-paste-container.active {
+    display: block;
+}
+
+.raw-paste-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 10, 10, 0.95);
+    padding: 0.8rem 1.5rem;
+    border-bottom: 1px solid var(--table-border);
+    z-index: 10002;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+}
+
+.raw-paste-content {
+    margin-top: 60px;
+    padding: 1.5rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* NEW: Profile Stats Styles */
+.profile-stats {
+    display: flex;
+    gap: 2rem;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: var(--table-row-alt);
+    border: 1px solid var(--table-border);
+    border-radius: 2px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-color);
+}
+
+.stat-label {
+    color: #888;
+    font-size: 0.9rem;
+    margin-top: 0.2rem;
+}
+
+/* NEW: Profile Page Layout */
+.profile-header {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 2rem;
+    position: relative;
+    min-height: 200px;
+}
+
+.profile-header-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--bg-color);
+}
+
+.profile-header-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    padding: 1.5rem;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 2px;
+    border: 3px solid var(--table-border);
+    background-color: var(--bg-color);
+    background-size: cover;
+    background-position: center;
+    margin-right: 1.5rem;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-username {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.profile-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* NEW: User Pastes Grid */
+.user-pastes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.user-paste-card {
+    background: var(--table-row-alt);
+    border: 1px solid var(--table-border);
+    border-radius: 2px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.user-paste-card:hover {
+    background: var(--hover-color);
+    border-color: var(--link-color);
+}
+
+.user-paste-title {
+    font-weight: bold;
+    color: var(--accent-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.user-paste-meta {
+    display: flex;
+    justify-content: space-between;
+    color: #888;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
 </style>
 </head>
 <body>
@@ -1217,6 +1464,15 @@ body {
         <div id="paste-detail-actions"></div>
     </div>
     <div id="paste-detail-content" class="paste-detail-content"></div>
+</div>
+
+<!-- Raw Paste View -->
+<div id="raw-paste-container" class="raw-paste-container">
+    <div class="raw-paste-header">
+        <button class="back-btn" onclick="closeRawPaste()">← Back to Paste</button>
+        <button class="btn btn-primary" onclick="copyRawPaste()">Copy Raw</button>
+    </div>
+    <div id="raw-paste-content" class="raw-paste-content"></div>
 </div>
 
 <!-- Navigation -->
@@ -1330,7 +1586,6 @@ body {
                 <div class="form-group">
                     <label class="form-label">Content</label>
                     <textarea class="form-textarea" id="paste-content" placeholder="Enter your paste content here..."></textarea>
-                    <div class="form-note">Please ensure your content follows our terms of service</div>
                 </div>
                 
                 <!-- Human Verification Checkbox -->
@@ -1344,10 +1599,6 @@ body {
                 <div class="btn-group">
                     <button class="btn btn-primary" onclick="publishPaste()">Create Paste</button>
                     <button class="btn btn-secondary" onclick="clearPasteForm()">Clear</button>
-                </div>
-                
-                <div class="form-note mt-3">
-                    Please note that all posted information is publicly available and must follow our TOS.
                 </div>
             </div>
         </div>
@@ -1518,10 +1769,38 @@ body {
         </div>
     </div>
 
-    <!-- User Profile -->
+    <!-- User Profile Page -->
     <div id="user-profile-page" class="hidden">
-        <button class="back-btn" onclick="showPage('home')">← Back to Pastes</button>
-        <div id="user-profile-content" class="paste-detail"></div>
+        <div class="profile-header">
+            <div id="profile-banner" class="profile-header-banner"></div>
+            <div class="profile-header-content">
+                <div id="profile-avatar" class="profile-avatar"></div>
+                <div class="profile-info">
+                    <div id="profile-username" class="profile-username"></div>
+                    <div id="profile-badges" class="profile-badges"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Stats -->
+        <div class="profile-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="paste-count">0</div>
+                <div class="stat-label">Pastes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="follows-count">0</div>
+                <div class="stat-label">Followers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="following-count">0</div>
+                <div class="stat-label">Following</div>
+            </div>
+        </div>
+
+        <!-- User's Pastes -->
+        <h3 class="section-title">User's Pastes</h3>
+        <div id="user-pastes-container" class="user-pastes-grid"></div>
     </div>
 
     <!-- Auth Page -->
@@ -1599,6 +1878,7 @@ let isTagMaker = false;
 let isOwner = false;
 let searchTimeout = null;
 let timeoutInterval = null;
+let currentPasteId = null; // Track current paste for comments
 
 // NEW: Pagination Variables
 let currentPage = 1;
@@ -1652,6 +1932,57 @@ function copyShareLink(linkId) {
         } catch (err) {
             showAlert('Failed to copy link', 'error');
         }
+    }
+}
+
+// NEW: Show raw paste
+function showRawPaste(pasteId) {
+    const container = document.getElementById('raw-paste-container');
+    const contentContainer = document.getElementById('raw-paste-content');
+    
+    // Get the paste content
+    const pasteElement = document.querySelector(`[data-paste-id="${pasteId}"]`);
+    if (pasteElement) {
+        const pasteContent = pasteElement.textContent;
+        contentContainer.innerHTML = `<div class="raw-paste-view">${escapeHtml(pasteContent)}</div>`;
+    } else {
+        // Try to get from database
+        loadPasteRawContent(pasteId);
+    }
+    
+    container.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeRawPaste() {
+    const container = document.getElementById('raw-paste-container');
+    container.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function copyRawPaste() {
+    const rawContent = document.querySelector('.raw-paste-view');
+    if (rawContent) {
+        const textArea = document.createElement('textarea');
+        textArea.value = rawContent.textContent;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showAlert('Raw paste copied to clipboard!', 'success');
+    }
+}
+
+async function loadPasteRawContent(pasteId) {
+    try {
+        const doc = await pasteDb.collection('pastes').doc(pasteId).get();
+        if (doc.exists) {
+            const paste = doc.data();
+            const contentContainer = document.getElementById('raw-paste-content');
+            contentContainer.innerHTML = `<div class="raw-paste-view">${escapeHtml(paste.content)}</div>`;
+        }
+    } catch (error) {
+        console.error('Error loading raw paste:', error);
     }
 }
 
@@ -2081,12 +2412,13 @@ async function performSearch(searchTerm) {
     }
 }
 
-// NEW: FULLSCREEN PASTE DETAIL with Share Link
+// NEW: FULLSCREEN PASTE DETAIL with Share Link and Comments
 function showPasteDetail(pasteId) {
     const container = document.getElementById('paste-detail-container');
     container.classList.add('active');
     document.body.style.overflow = 'hidden';
     
+    currentPasteId = pasteId; // Set current paste for comments
     loadPasteDetailContent(pasteId);
 }
 
@@ -2094,6 +2426,7 @@ function closePasteDetail() {
     const container = document.getElementById('paste-detail-container');
     container.classList.remove('active');
     document.body.style.overflow = 'auto';
+    currentPasteId = null; // Clear current paste
 }
 
 async function loadPasteDetailContent(pasteId) {
@@ -2179,8 +2512,14 @@ async function loadPasteDetailContent(pasteId) {
             
             <div style="color: #888; margin-bottom: 1.5rem; font-size: 0.9rem;">
                 <span style="margin-right: 1rem;" class="views-count" onclick="showPasteDetail('${pasteId}')" style="cursor: pointer;">${paste.views || 0} views</span>
-                <span style="margin-right: 1rem;" class="comments-count" onclick="showPasteDetail('${pasteId}')" style="cursor: pointer;">${commentCount} comments</span>
+                <span style="margin-right: 1rem;" class="comments-count" onclick="scrollToComments()" style="cursor: pointer;">${commentCount} comments</span>
                 <span style="margin-right: 1rem;">${formatTime(paste.timestamp?.toDate())}</span>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="btn-group mb-3">
+                <button class="btn btn-primary" onclick="showRawPaste('${pasteId}')">View Full Paste Raw</button>
+                <button class="btn btn-secondary" onclick="scrollToComments()">View Comments</button>
             </div>
             
             <!-- Share Link Section -->
@@ -2192,11 +2531,232 @@ async function loadPasteDetailContent(pasteId) {
                 </div>
             </div>
             
-            <div class="paste-content">${escapeHtml(paste.content)}</div>
+            <div class="paste-content" data-paste-id="${pasteId}">${escapeHtml(paste.content)}</div>
+            
+            <!-- Comments Section -->
+            <div id="comments-section" class="comments-section">
+                <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--accent-color);">Comments (${commentCount})</h3>
+                
+                <!-- Comment Form -->
+                ${currentUser ? `
+                <div class="comment-form">
+                    <textarea id="comment-input" placeholder="Add a comment..."></textarea>
+                    <button class="btn btn-primary" onclick="postComment('${pasteId}')">Post Comment</button>
+                </div>
+                ` : `
+                <div style="text-align: center; padding: 1rem; background: var(--table-row-alt); border-radius: 2px;">
+                    <a href="javascript:void(0)" onclick="showPage('auth')" style="color: var(--link-color); text-decoration: none;">
+                        Sign in to comment
+                    </a>
+                </div>
+                `}
+                
+                <!-- Comments List -->
+                <div id="comments-list" class="comments-list"></div>
+            </div>
         `;
+        
+        // Load comments
+        loadComments(pasteId);
     } catch (error) {
         showAlert(`Error loading paste: ${error.message}`, 'error');
         closePasteDetail();
+    }
+}
+
+function scrollToComments() {
+    const commentsSection = document.getElementById('comments-section');
+    if (commentsSection) {
+        commentsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// NEW: Comments System Functions
+async function loadComments(pasteId) {
+    try {
+        const commentsList = document.getElementById('comments-list');
+        if (!commentsList) return;
+        
+        commentsList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #888;">Loading comments...</div>';
+        
+        const snapshot = await pasteDb.collection('comments')
+            .where('pasteId', '==', pasteId)
+            .where('isRemoved', '==', false)
+            .orderBy('timestamp', 'desc')
+            .get();
+        
+        commentsList.innerHTML = '';
+        
+        if (snapshot.empty) {
+            commentsList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #888;">No comments yet. Be the first to comment!</div>';
+            return;
+        }
+        
+        snapshot.forEach(async (doc) => {
+            const comment = doc.data();
+            const commentId = doc.id;
+            
+            // Get user data
+            let username = 'Anonymous';
+            let userRole = 'user';
+            let userColor = '#ffffff';
+            
+            try {
+                const userDoc = await pasteDb.collection('users').doc(comment.userId).get();
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    username = userData.displayName || userData.username || 'Anonymous';
+                    userColor = userData.usernameColor || '#ffffff';
+                    
+                    if (userData.isOwner) userRole = 'owner';
+                    else if (userData.isAdmin) userRole = 'admin';
+                    else if (userData.isManager) userRole = 'manager';
+                    else if (userData.isVIP) userRole = 'vip';
+                }
+            } catch (error) {
+                console.error('Error getting user data:', error);
+            }
+            
+            // Create comment element
+            const commentElement = document.createElement('div');
+            commentElement.className = 'comment-item';
+            commentElement.id = `comment-${commentId}`;
+            
+            let roleBadge = '';
+            if (userRole === 'owner') roleBadge = '<span class="badge badge-owner">Owner</span>';
+            else if (userRole === 'admin') roleBadge = '<span class="badge badge-admin">Admin</span>';
+            else if (userRole === 'manager') roleBadge = '<span class="badge badge-manager">Manager</span>';
+            else if (userRole === 'vip') roleBadge = '<span class="badge badge-vip">VIP</span>';
+            
+            let deleteButton = '';
+            if ((currentUser && (currentUser.uid === comment.userId)) || isAdmin || isManager || isOwner) {
+                deleteButton = `<button class="btn btn-danger btn-small" onclick="deleteComment('${commentId}')">Delete</button>`;
+            }
+            
+            commentElement.innerHTML = `
+                <div class="comment-header">
+                    <div class="comment-author" style="color: ${userColor}">
+                        ${escapeHtml(username)}
+                        ${roleBadge}
+                    </div>
+                    <div class="comment-time">${formatTime(comment.timestamp?.toDate())}</div>
+                </div>
+                <div class="comment-content">${escapeHtml(comment.content)}</div>
+                <div class="comment-actions">
+                    ${deleteButton}
+                </div>
+            `;
+            
+            commentsList.appendChild(commentElement);
+        });
+    } catch (error) {
+        console.error('Error loading comments:', error);
+        const commentsList = document.getElementById('comments-list');
+        if (commentsList) {
+            commentsList.innerHTML = '<div style="text-align: center; padding: 1rem; color: #ff0000;">Error loading comments</div>';
+        }
+    }
+}
+
+async function postComment(pasteId) {
+    if (!currentUser) {
+        showAlert('Please sign in to comment', 'error');
+        showPage('auth');
+        return;
+    }
+    
+    const commentInput = document.getElementById('comment-input');
+    const content = commentInput.value.trim();
+    
+    if (!content) {
+        showAlert('Please enter a comment', 'error');
+        return;
+    }
+    
+    try {
+        await pasteDb.collection('comments').add({
+            pasteId: pasteId,
+            userId: currentUser.uid,
+            content: content,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            isRemoved: false
+        });
+        
+        commentInput.value = '';
+        showAlert('Comment posted successfully!', 'success');
+        
+        // Reload comments
+        loadComments(pasteId);
+        
+        // Update comment count in paste detail
+        updateCommentCount(pasteId);
+        
+    } catch (error) {
+        showAlert(`Error posting comment: ${error.message}`, 'error');
+    }
+}
+
+async function deleteComment(commentId) {
+    if (!currentUser) return;
+    
+    if (confirm('Are you sure you want to delete this comment?')) {
+        try {
+            const commentDoc = await pasteDb.collection('comments').doc(commentId).get();
+            const comment = commentDoc.data();
+            
+            // Check if user has permission to delete
+            if (currentUser.uid !== comment.userId && !isAdmin && !isManager && !isOwner) {
+                showAlert('You do not have permission to delete this comment', 'error');
+                return;
+            }
+            
+            // Soft delete by marking as removed
+            await pasteDb.collection('comments').doc(commentId).update({
+                isRemoved: true
+            });
+            
+            showAlert('Comment deleted', 'success');
+            
+            // Remove from UI
+            const commentElement = document.getElementById(`comment-${commentId}`);
+            if (commentElement) {
+                commentElement.remove();
+            }
+            
+            // Update comment count
+            if (comment.pasteId) {
+                updateCommentCount(comment.pasteId);
+            }
+            
+        } catch (error) {
+            showAlert(`Error deleting comment: ${error.message}`, 'error');
+        }
+    }
+}
+
+async function updateCommentCount(pasteId) {
+    try {
+        const commentsSnapshot = await pasteDb.collection('comments')
+            .where('pasteId', '==', pasteId)
+            .where('isRemoved', '==', false)
+            .get();
+        
+        const commentCount = commentsSnapshot.size;
+        
+        // Update comment count in UI
+        const commentCountElement = document.querySelector('.comments-count');
+        if (commentCountElement) {
+            commentCountElement.textContent = `${commentCount} comments`;
+        }
+        
+        // Update in cache
+        const pasteIndex = allPastesCache.findIndex(p => p.id === pasteId);
+        if (pasteIndex !== -1) {
+            allPastesCache[pasteIndex].commentCount = commentCount;
+        }
+        
+    } catch (error) {
+        console.error('Error updating comment count:', error);
     }
 }
 
@@ -2244,7 +2804,7 @@ async function signUp() {
         const ownerEmail = 'exoticslash3r@gmail.com';
         const isOwnerEmail = email === ownerEmail;
         
-        // Create user profile
+        // Create user profile with follow system
         const userData = {
             email: email,
             username: email.split('@')[0],
@@ -2260,7 +2820,10 @@ async function signUp() {
             bannerUrl: '',
             profileUrl: '',
             lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-            timeoutUntil: null
+            timeoutUntil: null,
+            followers: [], // Array of user IDs who follow this user
+            following: [], // Array of user IDs this user follows
+            pasteCount: 0 // Track number of pastes
         };
         
         await pasteDb.collection('users').doc(currentUser.uid).set(userData);
@@ -2362,7 +2925,10 @@ async function checkUserStatus() {
                 bannerUrl: '',
                 profileUrl: '',
                 lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-                timeoutUntil: null
+                timeoutUntil: null,
+                followers: [],
+                following: [],
+                pasteCount: 0
             };
             await pasteDb.collection('users').doc(currentUser.uid).set(userData);
             
@@ -2498,6 +3064,11 @@ async function publishPaste() {
         
         await pasteDb.collection('pastes').add(pasteData);
         
+        // Update user's paste count
+        await pasteDb.collection('users').doc(currentUser.uid).update({
+            pasteCount: firebase.firestore.FieldValue.increment(1)
+        });
+        
         showAlert('Paste published successfully!', 'success');
         clearPasteForm();
         showPage('home');
@@ -2581,7 +3152,7 @@ function displayPastesTable(snapshot, containerId, isPinned = false) {
         const commentsCell = document.createElement('td');
         const commentsSpan = document.createElement('span');
         commentsSpan.className = 'comments-count';
-        commentsSpan.textContent = '0'; // Will be updated if we have comment system
+        commentsSpan.textContent = paste.commentCount || '0';
         commentsSpan.onclick = () => showPasteDetail(pasteId);
         commentsSpan.style.cursor = 'pointer';
         commentsCell.appendChild(commentsSpan);
@@ -2657,7 +3228,7 @@ function displaySearchResults(results) {
         const commentsCell = document.createElement('td');
         const commentsSpan = document.createElement('span');
         commentsSpan.className = 'comments-count';
-        commentsSpan.textContent = '0';
+        commentsSpan.textContent = paste.commentCount || '0';
         commentsSpan.onclick = () => showPasteDetail(paste.id);
         commentsSpan.style.cursor = 'pointer';
         commentsCell.appendChild(commentsSpan);
@@ -2895,6 +3466,140 @@ async function updateProfilePicture() {
         document.getElementById('profile-picture-img').style.backgroundImage = `url('${profileUrl}')`;
     } catch (error) {
         showAlert(`Error updating profile picture: ${error.message}`, 'error');
+    }
+}
+
+// NEW: Enhanced User Profile Function
+async function showUserProfile(userId) {
+    // Show user profile page
+    showPage('userProfile');
+    
+    try {
+        const userDoc = await pasteDb.collection('users').doc(userId).get();
+        
+        if (!userDoc.exists) {
+            document.getElementById('user-profile-page').innerHTML = `
+                <button class="back-btn" onclick="showPage('home')">← Back to Pastes</button>
+                <div style="text-align: center; padding: 3rem;">
+                    <h2>User not found</h2>
+                    <p>The user you're looking for doesn't exist.</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const userData = userDoc.data();
+        
+        // Set banner
+        const banner = document.getElementById('profile-banner');
+        if (userData.bannerUrl) {
+            banner.style.backgroundImage = `url('${userData.bannerUrl}')`;
+        } else {
+            banner.style.backgroundImage = '';
+            banner.style.backgroundColor = 'var(--bg-color)';
+        }
+        
+        // Set avatar
+        const avatar = document.getElementById('profile-avatar');
+        if (userData.profileUrl) {
+            avatar.style.backgroundImage = `url('${userData.profileUrl}')`;
+        } else {
+            avatar.style.backgroundImage = '';
+            avatar.style.backgroundColor = 'var(--bg-color)';
+        }
+        
+        // Set username with color
+        const username = document.getElementById('profile-username');
+        username.textContent = userData.displayName || userData.username || 'Anonymous';
+        username.style.color = userData.usernameColor || '#ffffff';
+        
+        // Add glow effects based on role
+        if (userData.isOwner) {
+            username.className = 'profile-username owner-glow';
+        } else if (userData.isVIP) {
+            username.className = 'profile-username vip-glow';
+        } else {
+            username.className = 'profile-username';
+        }
+        
+        // Set badges
+        const badges = document.getElementById('profile-badges');
+        badges.innerHTML = '';
+        
+        if (userData.isBanned) {
+            badges.innerHTML += '<span class="badge badge-admin">BANNED</span>';
+        }
+        if (userData.isOwner) {
+            badges.innerHTML += '<span class="badge badge-owner">Owner</span>';
+        }
+        if (userData.isAdmin) {
+            badges.innerHTML += '<span class="badge badge-admin">Admin</span>';
+        }
+        if (userData.isManager) {
+            badges.innerHTML += '<span class="badge badge-manager">Manager</span>';
+        }
+        if (userData.isVIP) {
+            badges.innerHTML += '<span class="badge badge-vip">VIP</span>';
+        }
+        if (userData.isTagMaker) {
+            badges.innerHTML += '<span class="badge badge-tagmaker">Tag Maker</span>';
+        }
+        
+        // Set stats
+        document.getElementById('paste-count').textContent = userData.pasteCount || 0;
+        document.getElementById('follows-count').textContent = userData.followers ? userData.followers.length : 0;
+        document.getElementById('following-count').textContent = userData.following ? userData.following.length : 0;
+        
+        // Load user's pastes
+        await loadUserPastes(userId);
+        
+    } catch (error) {
+        console.error('Error loading user profile:', error);
+        showAlert('Error loading profile', 'error');
+    }
+}
+
+async function loadUserPastes(userId) {
+    try {
+        const snapshot = await pasteDb.collection('pastes')
+            .where('userId', '==', userId)
+            .where('isRemoved', '==', false)
+            .orderBy('timestamp', 'desc')
+            .limit(20)
+            .get();
+        
+        const container = document.getElementById('user-pastes-container');
+        container.innerHTML = '';
+        
+        if (snapshot.empty) {
+            container.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #888;">No pastes yet</div>';
+            return;
+        }
+        
+        snapshot.forEach(doc => {
+            const paste = doc.data();
+            const pasteCard = document.createElement('div');
+            pasteCard.className = 'user-paste-card';
+            pasteCard.onclick = () => showPasteDetail(doc.id);
+            
+            pasteCard.innerHTML = `
+                <div class="user-paste-title">${escapeHtml(paste.title)}</div>
+                <div style="color: #888; font-size: 0.9rem; margin: 0.5rem 0; max-height: 60px; overflow: hidden;">
+                    ${escapeHtml(paste.content.substring(0, 100))}${paste.content.length > 100 ? '...' : ''}
+                </div>
+                <div class="user-paste-meta">
+                    <span>${paste.views || 0} views</span>
+                    <span>${formatTime(paste.timestamp?.toDate())}</span>
+                </div>
+            `;
+            
+            container.appendChild(pasteCard);
+        });
+        
+    } catch (error) {
+        console.error('Error loading user pastes:', error);
+        const container = document.getElementById('user-pastes-container');
+        container.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: #ff0000;">Error loading pastes</div>';
     }
 }
 
@@ -3485,116 +4190,6 @@ function adminBackupData() {
     if (!isAdmin && !isManager && !isOwner) return;
     
     showAlert('Backup feature would export data here', 'success');
-}
-
-async function showUserProfile(userId) {
-    showPage('userProfile');
-    
-    try {
-        const userDoc = await pasteDb.collection('users').doc(userId).get();
-        const pasteSnap = await pasteDb.collection('pastes')
-            .where('userId', '==', userId)
-            .where('isRemoved', '==', false)
-            .orderBy('timestamp', 'desc')
-            .limit(10)
-            .get();
-        
-        const container = document.getElementById('user-profile-content');
-        
-        if (!userDoc.exists) {
-            container.innerHTML = '<div style="text-align: center; padding: 2rem;">User not found</div>';
-            return;
-        }
-        
-        const userData = userDoc.data();
-        let adminControls = '';
-        
-        if (isAdmin || isManager || isOwner) {
-            adminControls = `
-                <div class="admin-controls mt-4">
-                    <div class="admin-title">Admin Controls</div>
-                    <div class="admin-actions">
-                        <button class="btn btn-danger btn-small" onclick="adminBanUser('${userId}', ${!userData.isBanned})">
-                            ${userData.isBanned ? 'Unban User' : 'Ban User'}
-                        </button>
-                        <button class="btn btn-danger btn-small" onclick="adminDeleteUserPosts('${userId}')">
-                            Delete User's Posts
-                        </button>
-                        ${isAdmin ? `<button class="btn btn-danger btn-small" onclick="adminMakeAdmin('${userId}', ${!userData.isAdmin})">
-                            ${userData.isAdmin ? 'Remove Admin' : 'Make Admin'}
-                        </button>` : ''}
-                        ${(isAdmin || isOwner) ? `<button class="btn btn-danger btn-small" onclick="adminMakeManager('${userId}', ${!userData.isManager})">
-                            ${userData.isManager ? 'Remove Manager' : 'Make Manager'}
-                        </button>` : ''}
-                        ${(isAdmin || isOwner || isManager) ? `<button class="btn btn-danger btn-small" onclick="adminMakeVIP('${userId}', ${!userData.isVIP})">
-                            ${userData.isVIP ? 'Remove VIP' : 'Make VIP'}
-                        </button>` : ''}
-                        ${(isAdmin || isOwner || isManager) ? `<button class="btn btn-danger btn-small" onclick="adminMakeTagMaker('${userId}', ${!userData.isTagMaker})">
-                            ${userData.isTagMaker ? 'Remove Tag Maker' : 'Make Tag Maker'}
-                        </button>` : ''}
-                        <button class="btn btn-danger btn-small" onclick="showTimeoutUserForm('${userId}')">
-                            Timeout User
-                        </button>
-                        ${userData.timeoutUntil ? `<button class="btn btn-success btn-small" onclick="adminUntimeoutUser('${userId}')">
-                            Un-timeout User
-                        </button>` : ''}
-                    </div>
-                </div>
-            `;
-        }
-        
-        let postsHtml = '';
-        pasteSnap.forEach(doc => {
-            const paste = doc.data();
-            postsHtml += `
-                <div class="paste-card mt-2" onclick="showPasteDetail('${doc.id}')">
-                    <div class="paste-title">${escapeHtml(paste.title)}</div>
-                    <div class="paste-views">${paste.views || 0} views • ${formatTime(paste.timestamp?.toDate())}</div>
-                </div>
-            `;
-        });
-        
-        // Apply username color if user has one
-        const usernameStyle = userData.usernameColor ? `style="color: ${userData.usernameColor}"` : '';
-        
-        // Apply glow effects based on role
-        let usernameClass = '';
-        if (userData.isOwner) {
-            usernameClass = 'owner-glow';
-        } else if (userData.isVIP) {
-            usernameClass = 'vip-glow';
-        }
-        
-        container.innerHTML = `
-            <div class="profile-banner" style="${userData.bannerUrl ? `background-image: url('${userData.bannerUrl}')` : ''}">
-                <div class="profile-picture" style="${userData.profileUrl ? `background-image: url('${userData.profileUrl}')` : ''}"></div>
-            </div>
-            
-            <h1 class="${usernameClass}" style="font-size: 1.8rem; margin-top: 4rem;" ${usernameStyle}>
-                ${escapeHtml(userData.displayName || userData.username || userData.email?.split('@')[0] || 'Unknown User')}
-                ${userData.isBanned ? '<span class="badge badge-admin">BANNED</span>' : ''}
-                ${userData.isAdmin ? '<span class="badge badge-admin">ADMIN</span>' : ''}
-                ${userData.isManager ? '<span class="badge badge-manager">MANAGER</span>' : ''}
-                ${userData.isVIP ? '<span class="badge badge-vip">VIP</span>' : ''}
-                ${userData.isTagMaker ? '<span class="badge badge-tagmaker">TAG MAKER</span>' : ''}
-                ${userData.isOwner ? '<span class="badge badge-owner">OWNER</span>' : ''}
-            </h1>
-            
-            <div class="paste-content mt-3">
-                <p><strong>Email:</strong> ${escapeHtml(userData.email || 'Not provided')}</p>
-                <p><strong>Member since:</strong> ${formatTime(userData.createdAt?.toDate())}</p>
-                <p><strong>Total posts:</strong> ${pasteSnap.size}</p>
-                ${userData.timeoutUntil ? `<p><strong>Timeout until:</strong> ${formatTime(userData.timeoutUntil?.toDate())}</p>` : ''}
-            </div>
-            
-            <h3 class="mt-4">Recent Posts:</h3>
-            ${postsHtml || '<p>No posts yet</p>'}
-            
-            ${adminControls}
-        `;
-    } catch (error) {
-        showAlert(`Error loading profile: ${error.message}`, 'error');
-    }
 }
 
 // Utility Functions
