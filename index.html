@@ -107,8 +107,12 @@ body {
     font-size: 0.9rem;
 }
 
-.doxbin-table tbody tr:nth-child(even) {
+.doxbin-table tbody tr:nth-child(odd) {
     background: var(--table-row-alt);
+}
+
+.doxbin-table tbody tr:nth-child(even) {
+    background: var(--bg-color);
 }
 
 .doxbin-table tbody tr:hover {
@@ -150,20 +154,25 @@ body {
     background: var(--table-row-alt);
     padding: 1rem;
     border: 1px solid var(--table-border);
-    margin-top: 1rem;
-    border-radius: 4px;
+    margin: 1.5rem 0;
+    border-radius: 2px;
+}
+
+.share-link-container {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 .share-link {
+    flex: 1;
     background: var(--bg-color);
     border: 1px solid var(--table-border);
     padding: 0.8rem;
     color: var(--text-color);
     font-family: 'Courier New', monospace;
     font-size: 0.9rem;
-    width: 100%;
-    border-radius: 4px;
-    margin-bottom: 0.5rem;
+    border-radius: 2px;
     user-select: all;
 }
 
@@ -173,9 +182,10 @@ body {
     border: 1px solid var(--table-border);
     padding: 0.5rem 1rem;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 2px;
     font-size: 0.9rem;
     transition: all 0.3s;
+    white-space: nowrap;
 }
 
 .copy-btn:hover {
@@ -183,10 +193,17 @@ body {
     border-color: var(--link-color);
 }
 
+.copy-btn.copied {
+    background: #00aa00;
+    border-color: #00aa00;
+    color: white;
+}
+
 /* NEW: Comments and Views styling */
 .comments-count, .views-count {
     font-weight: bold;
     color: #888;
+    cursor: pointer;
 }
 
 .comments-count:hover, .views-count:hover {
@@ -228,6 +245,11 @@ body {
     background: #ff0000;
     color: white;
     animation: bloodPulse 2s infinite;
+}
+
+.badge-pinned {
+    background: #00aa00;
+    color: white;
 }
 
 /* NEW: Pagination Styles - Clean Doxbin Style */
@@ -608,9 +630,9 @@ body {
     padding: 1.5rem;
     border-radius: 2px;
     border: 1px solid var(--table-border);
-    margin-top: 1.5rem;
+    margin-top: 1rem;
     min-height: 150px;
-    max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 250px);
     overflow-y: auto;
     line-height: 1.5;
     font-size: 0.95rem;
@@ -1091,7 +1113,7 @@ body {
 .gap-2 { gap: 0.5rem; }
 .gap-3 { gap: 0.8rem; }
 
-/* NEW: Paste creation form styling */
+/* NEW: Paste creation form styling - DOXBIN STYLE */
 .create-paste-container {
     max-width: 800px;
     margin: 0 auto;
@@ -1113,6 +1135,29 @@ body {
     color: #888;
     font-size: 0.8rem;
     margin-top: 0.5rem;
+}
+
+/* NEW: Human verification checkbox */
+.verify-human-container {
+    background: var(--table-header-bg);
+    padding: 1rem;
+    border: 1px solid var(--table-border);
+    margin-bottom: 1.5rem;
+    border-radius: 2px;
+}
+
+.verify-human-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-color);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.verify-human-checkbox {
+    width: 16px;
+    height: 16px;
 }
 
 /* NEW: Responsive tables */
@@ -1147,6 +1192,10 @@ body {
         width: 32px;
         height: 32px;
         font-size: 0.8rem;
+    }
+    
+    .share-link-container {
+        flex-direction: column;
     }
 }
 </style>
@@ -1266,39 +1315,30 @@ body {
         <div id="pagination-info" class="pagination-info"></div>
     </div>
 
-    <!-- Create Paste Page - Updated to match Doxbin style -->
+    <!-- Create Paste Page - DOXBIN STYLE -->
     <div id="paste-page" class="hidden">
         <div class="create-paste-container">
             <h2 class="create-paste-title">Create Paste</h2>
             
             <div class="paste-form">
-                <div style="background: var(--table-header-bg); padding: 1rem; border: 1px solid var(--table-border); margin-bottom: 1.5rem; border-radius: 2px;">
-                    <h3 style="margin-bottom: 0.5rem; color: var(--accent-color);">Paste Guidelines</h3>
-                    <p style="font-size: 0.9rem; color: #888; margin-bottom: 0.5rem;">
-                        • Ensure your paste contains quality information<br>
-                        • No spam, irrelevant information, or advertisements<br>
-                        • No information about minors under 15<br>
-                        • No threats or illegal content
-                    </p>
-                </div>
-                
                 <div class="form-group">
                     <label class="form-label">Title</label>
                     <input type="text" class="form-input" id="paste-title" placeholder="Enter paste title (no special characters)">
-                    <div class="form-note">Title must be descriptive and meaningful</div>
+                    <div class="form-note">Maximum 100 characters</div>
                 </div>
                 
                 <div class="form-group">
                     <label class="form-label">Content</label>
                     <textarea class="form-textarea" id="paste-content" placeholder="Enter your paste content here..."></textarea>
-                    <div class="form-note">Use proper formatting and include relevant details</div>
+                    <div class="form-note">Please ensure your content follows our terms of service</div>
                 </div>
                 
-                <div style="background: var(--table-header-bg); padding: 1rem; border: 1px solid var(--table-border); margin-bottom: 1.5rem; border-radius: 2px;">
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <input type="checkbox" id="verify-human" style="width: 16px; height: 16px;">
-                        <label for="verify-human" style="color: var(--accent-color); font-size: 0.9rem;">Verify you are human</label>
-                    </div>
+                <!-- Human Verification Checkbox -->
+                <div class="verify-human-container">
+                    <label class="verify-human-label">
+                        <input type="checkbox" class="verify-human-checkbox" id="verify-human">
+                        <span>Verify you are human</span>
+                    </label>
                 </div>
                 
                 <div class="btn-group">
@@ -1480,7 +1520,7 @@ body {
 
     <!-- User Profile -->
     <div id="user-profile-page" class="hidden">
-        <button class="back-btn" onclick="showPage('home')">Back</button>
+        <button class="back-btn" onclick="showPage('home')">← Back to Pastes</button>
         <div id="user-profile-content" class="paste-detail"></div>
     </div>
 
@@ -1566,6 +1606,7 @@ const itemsPerPage = 15; // Number of pastes per page
 let totalPastes = 0;
 let totalPages = 0;
 let allPastesCache = []; // Cache for all pastes
+let uniquePasteIds = new Set(); // To prevent duplicate pastes
 
 // NEW: Comments System
 let pasteComments = {}; // Store comments for each paste
@@ -1581,6 +1622,37 @@ function showAlert(message, type = 'info') {
     setTimeout(() => {
         alert.remove();
     }, 5000);
+}
+
+// NEW: Copy share link function
+function copyShareLink(linkId) {
+    const shareLinkInput = document.getElementById(`share-link-${linkId}`);
+    const copyBtn = document.querySelector(`[onclick="copyShareLink('${linkId}')"]`);
+    
+    if (shareLinkInput) {
+        shareLinkInput.select();
+        shareLinkInput.setSelectionRange(0, 99999); // For mobile devices
+        
+        try {
+            document.execCommand('copy');
+            
+            // Change button to show "Copied!" temporarily
+            if (copyBtn) {
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = 'Copied!';
+                copyBtn.classList.add('copied');
+                
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            }
+            
+            showAlert('Link copied to clipboard!', 'success');
+        } catch (err) {
+            showAlert('Failed to copy link', 'error');
+        }
+    }
 }
 
 // NEW: Initialize Hall of Autism
@@ -1720,7 +1792,14 @@ async function displayPaginationPastes() {
             return;
         }
         
+        // Clear unique IDs set for this page
+        const pageUniqueIds = new Set();
+        
         pagePastes.forEach(paste => {
+            // Skip duplicates within the same page
+            if (pageUniqueIds.has(paste.id)) return;
+            pageUniqueIds.add(paste.id);
+            
             const row = document.createElement('tr');
             
             // Create title with clickable link
@@ -1733,9 +1812,7 @@ async function displayPaginationPastes() {
             titleCell.appendChild(titleLink);
             if (paste.isPinned) {
                 const pinnedBadge = document.createElement('span');
-                pinnedBadge.className = 'badge';
-                pinnedBadge.style.background = '#00aa00';
-                pinnedBadge.style.color = 'white';
+                pinnedBadge.className = 'badge badge-pinned';
                 pinnedBadge.textContent = 'PINNED';
                 titleCell.appendChild(pinnedBadge);
             }
@@ -1815,13 +1892,18 @@ async function loadPaginationData() {
             .orderBy('timestamp', 'desc')
             .get();
         
-        // Cache all pastes
+        // Clear cache and unique IDs
         allPastesCache = [];
+        uniquePasteIds.clear();
         
         // Get user data for each paste
         for (const doc of snapshot.docs) {
             const paste = doc.data();
             const pasteId = doc.id;
+            
+            // Skip duplicates across entire dataset
+            if (uniquePasteIds.has(pasteId)) continue;
+            uniquePasteIds.add(pasteId);
             
             // Get user role
             let userRole = 'user';
@@ -1847,7 +1929,8 @@ async function loadPaginationData() {
                     .get();
                 commentCount = commentsSnapshot.size;
             } catch (error) {
-                console.error('Error getting comments:', error);
+                // Comments collection might not exist yet
+                commentCount = 0;
             }
             
             allPastesCache.push({ 
@@ -1857,6 +1940,13 @@ async function loadPaginationData() {
                 commentCount: commentCount
             });
         }
+        
+        // Sort by timestamp to ensure proper order
+        allPastesCache.sort((a, b) => {
+            const timeA = a.timestamp?.toDate?.() || new Date(0);
+            const timeB = b.timestamp?.toDate?.() || new Date(0);
+            return timeB - timeA;
+        });
         
         // Update totals
         totalPastes = allPastesCache.length;
@@ -1965,10 +2055,15 @@ async function performSearch(searchTerm) {
         
         const results = [];
         const searchLower = searchTerm.toLowerCase();
+        const uniqueIds = new Set();
         
         snapshot.forEach(doc => {
             const paste = doc.data();
             const pasteId = doc.id;
+            
+            // Skip duplicates
+            if (uniqueIds.has(pasteId)) return;
+            uniqueIds.add(pasteId);
             
             const titleMatch = paste.title.toLowerCase().includes(searchLower);
             const contentMatch = paste.content.toLowerCase().includes(searchLower);
@@ -2039,7 +2134,8 @@ async function loadPasteDetailContent(pasteId) {
         actionsContainer.innerHTML = adminControls;
         
         // Generate shareable link
-        const shareLink = window.location.origin + window.location.pathname + '?paste=' + pasteId;
+        const baseUrl = window.location.origin + window.location.pathname;
+        const shareLink = `${baseUrl}?paste=${pasteId}`;
         
         // Get user role for badge
         let userRoleBadge = '';
@@ -2056,13 +2152,25 @@ async function loadPasteDetailContent(pasteId) {
             console.error('Error getting user role:', error);
         }
         
+        // Get comment count
+        let commentCount = 0;
+        try {
+            const commentsSnapshot = await pasteDb.collection('comments')
+                .where('pasteId', '==', pasteId)
+                .where('isRemoved', '==', false)
+                .get();
+            commentCount = commentsSnapshot.size;
+        } catch (error) {
+            commentCount = 0;
+        }
+        
         container.innerHTML = `
             <div style="margin-bottom: 1.5rem;">
                 <a href="javascript:void(0)" class="paste-link" onclick="showUserProfile('${paste.userId}')">
                     ${escapeHtml(paste.username || 'Anonymous')}
                 </a>
                 ${userRoleBadge}
-                ${paste.isPinned ? '<span class="badge" style="background: #00aa00; color: white;">PINNED</span>' : ''}
+                ${paste.isPinned ? '<span class="badge badge-pinned">PINNED</span>' : ''}
             </div>
             
             <h1 style="color: var(--accent-color); margin-bottom: 1rem; font-size: 1.8rem;">
@@ -2070,15 +2178,18 @@ async function loadPasteDetailContent(pasteId) {
             </h1>
             
             <div style="color: #888; margin-bottom: 1.5rem; font-size: 0.9rem;">
-                <span style="margin-right: 1rem;">${paste.views || 0} views</span>
+                <span style="margin-right: 1rem;" class="views-count" onclick="showPasteDetail('${pasteId}')" style="cursor: pointer;">${paste.views || 0} views</span>
+                <span style="margin-right: 1rem;" class="comments-count" onclick="showPasteDetail('${pasteId}')" style="cursor: pointer;">${commentCount} comments</span>
                 <span style="margin-right: 1rem;">${formatTime(paste.timestamp?.toDate())}</span>
             </div>
             
             <!-- Share Link Section -->
             <div class="share-section">
                 <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: var(--accent-color);">Share this paste:</h3>
-                <input type="text" class="share-link" value="${shareLink}" readonly id="share-link-${pasteId}">
-                <button class="copy-btn" onclick="copyShareLink('${pasteId}')">Copy Link</button>
+                <div class="share-link-container">
+                    <input type="text" class="share-link" value="${shareLink}" readonly id="share-link-${pasteId}">
+                    <button class="copy-btn" onclick="copyShareLink('${pasteId}')">Copy Link</button>
+                </div>
             </div>
             
             <div class="paste-content">${escapeHtml(paste.content)}</div>
@@ -2086,17 +2197,6 @@ async function loadPasteDetailContent(pasteId) {
     } catch (error) {
         showAlert(`Error loading paste: ${error.message}`, 'error');
         closePasteDetail();
-    }
-}
-
-// NEW: Copy share link function
-function copyShareLink(pasteId) {
-    const shareLinkInput = document.getElementById(`share-link-${pasteId}`);
-    if (shareLinkInput) {
-        shareLinkInput.select();
-        shareLinkInput.setSelectionRange(0, 99999); // For mobile devices
-        document.execCommand('copy');
-        showAlert('Link copied to clipboard!', 'success');
     }
 }
 
@@ -2365,7 +2465,7 @@ async function publishPaste() {
     
     // Check if human verification is checked
     const verifyCheckbox = document.getElementById('verify-human');
-    if (!verifyCheckbox.checked) {
+    if (!verifyCheckbox || !verifyCheckbox.checked) {
         showAlert('Please verify you are human', 'error');
         return;
     }
@@ -2375,6 +2475,11 @@ async function publishPaste() {
     
     if (!title || !content) {
         showAlert('Please fill in both title and content', 'error');
+        return;
+    }
+    
+    if (title.length > 100) {
+        showAlert('Title must be 100 characters or less', 'error');
         return;
     }
     
@@ -2405,7 +2510,8 @@ async function publishPaste() {
 function clearPasteForm() {
     document.getElementById('paste-title').value = '';
     document.getElementById('paste-content').value = '';
-    document.getElementById('verify-human').checked = false;
+    const verifyCheckbox = document.getElementById('verify-human');
+    if (verifyCheckbox) verifyCheckbox.checked = false;
 }
 
 // Remove old loadRecentPastes function and replace with pagination version
@@ -2443,9 +2549,15 @@ function displayPastesTable(snapshot, containerId, isPinned = false) {
         return;
     }
     
+    const uniqueIds = new Set();
+    
     snapshot.forEach(doc => {
         const paste = doc.data();
         const pasteId = doc.id;
+        
+        // Skip duplicates
+        if (uniqueIds.has(pasteId)) return;
+        uniqueIds.add(pasteId);
         
         const row = document.createElement('tr');
         
@@ -2460,9 +2572,7 @@ function displayPastesTable(snapshot, containerId, isPinned = false) {
         
         if (isPinned) {
             const pinnedBadge = document.createElement('span');
-            pinnedBadge.className = 'badge';
-            pinnedBadge.style.background = '#00aa00';
-            pinnedBadge.style.color = 'white';
+            pinnedBadge.className = 'badge badge-pinned';
             pinnedBadge.textContent = 'PINNED';
             titleCell.appendChild(pinnedBadge);
         }
@@ -2471,7 +2581,7 @@ function displayPastesTable(snapshot, containerId, isPinned = false) {
         const commentsCell = document.createElement('td');
         const commentsSpan = document.createElement('span');
         commentsSpan.className = 'comments-count';
-        commentsSpan.textContent = paste.commentCount || 0;
+        commentsSpan.textContent = '0'; // Will be updated if we have comment system
         commentsSpan.onclick = () => showPasteDetail(pasteId);
         commentsSpan.style.cursor = 'pointer';
         commentsCell.appendChild(commentsSpan);
@@ -2518,7 +2628,13 @@ function displaySearchResults(results) {
         return;
     }
     
+    const uniqueIds = new Set();
+    
     results.slice(0, 50).forEach(paste => {
+        // Skip duplicates
+        if (uniqueIds.has(paste.id)) return;
+        uniqueIds.add(paste.id);
+        
         const row = document.createElement('tr');
         
         // Title cell with clickable link
@@ -2532,9 +2648,7 @@ function displaySearchResults(results) {
         
         if (paste.isPinned) {
             const pinnedBadge = document.createElement('span');
-            pinnedBadge.className = 'badge';
-            pinnedBadge.style.background = '#00aa00';
-            pinnedBadge.style.color = 'white';
+            pinnedBadge.className = 'badge badge-pinned';
             pinnedBadge.textContent = 'PINNED';
             titleCell.appendChild(pinnedBadge);
         }
@@ -2543,7 +2657,7 @@ function displaySearchResults(results) {
         const commentsCell = document.createElement('td');
         const commentsSpan = document.createElement('span');
         commentsSpan.className = 'comments-count';
-        commentsSpan.textContent = paste.commentCount || 0;
+        commentsSpan.textContent = '0';
         commentsSpan.onclick = () => showPasteDetail(paste.id);
         commentsSpan.style.cursor = 'pointer';
         commentsCell.appendChild(commentsSpan);
@@ -3338,7 +3452,7 @@ async function adminViewAllPastes() {
                 <div class="paste-card">
                     <div class="paste-username" onclick="showUserProfile('${paste.userId}')">
                         ${escapeHtml(paste.username || 'Unknown User')}
-                        ${paste.isPinned ? '<span class="badge" style="background: #00aa00; color: white;">PINNED</span>' : ''}
+                        ${paste.isPinned ? '<span class="badge badge-pinned">PINNED</span>' : ''}
                         ${paste.isRemoved ? '<span class="badge badge-admin">REMOVED</span>' : ''}
                     </div>
                     <div class="paste-title">${escapeHtml(paste.title)}</div>
@@ -3554,6 +3668,13 @@ document.addEventListener('DOMContentLoaded', () => {
             hallMusic.play().catch(e => console.log("Music play prevented"));
         }
     });
+    
+    // Check for paste ID in URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const pasteId = urlParams.get('paste');
+    if (pasteId) {
+        showPasteDetail(pasteId);
+    }
 });
 </script>
 </body>
